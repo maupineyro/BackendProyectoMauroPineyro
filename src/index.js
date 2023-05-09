@@ -26,16 +26,21 @@ app.get ("/products", async (req,res) =>{
 res.send (await productManager.getProducts())
 })
 
-//GET by ID
+//GET by ID (encontrar producto por su Id en products.json)
 app.get ("/products/:id", async (req,res) =>{
     let id = req.params.id;
     res.send (await productManager.getProductById(id))
 
 })
 
+//DELETE (para borrar productos de products.json)
+app.delete ("/products/:id", async (req,res) =>{
+    let id= req.params.id;
+    res.send (await productManager.deleteProducts(id))
+})
+
 //PUT
 
-//DELETE
 
 
 
