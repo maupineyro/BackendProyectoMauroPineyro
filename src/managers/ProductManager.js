@@ -5,13 +5,24 @@ class ProductManager {
         this.path = "./src/saveData/products.json"
     }
     //métodos 
-    writeProducts = async (product) =>{
+
+    readProducts = async ()=>{
         let readingProducts = await fs.readFile (this.path, "utf-8");
-        let productsObject = JSON.parse (readingProducts);
-        let totalProducts = [...productsObject, product];
+        return JSON.parse (readingProducts);
+    }
+
+    writeProducts = async (product) =>{
+        let productsAccumulator = await this.readProducts();
+        let totalProducts = [...productsAccumulator, product];
         await fs.writeFile (this.path, JSON.stringify(totalProducts));
         return "Producto Agregado correctamente"
     }   
+
+    getProducts = async ()=>{
+        let readingProducts = await fs.readFile (this.path, "utf-8");
+        return JSON.parse (readingProducts);
+    }
+
 } //cierra la class ProductManager
 
 export default ProductManager

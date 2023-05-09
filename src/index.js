@@ -2,10 +2,7 @@
 import express from 'express';
 import ProductManager from './managers/ProductManager.js';
 
-const productManager= new ProductManager;
-
-
-
+const productManager = new ProductManager;
 
 
 const app = express();
@@ -17,16 +14,17 @@ app.use(express.urlencoded({extended:true}));
 
 
 
-
-
-//CRUD
-//POST (en post method, desde Body)
+//POST (en post method, desde Body, para "subir" un producto desde cliente)
 app.post ("/products", async (req,res) =>{
 let newProduct = req.body;
 res.send (await productManager.writeProducts(newProduct))
+console.log (newProduct)
 })
 
-//GET
+//GET (para mostrar los productos guardados)
+app.get ("/products", async (req,res) =>{
+res.send (await productManager.getProducts())
+})
 
 //PUT
 
