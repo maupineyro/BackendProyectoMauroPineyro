@@ -26,6 +26,13 @@ app.get ("/products", async (req,res) =>{
 res.send (await productManager.getProducts())
 })
 
+//GET by ID
+app.get ("/products/:id", async (req,res) =>{
+    let id = req.params.id;
+    res.send (await productManager.getProductById(id))
+
+})
+
 //PUT
 
 //DELETE
