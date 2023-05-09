@@ -1,4 +1,6 @@
 import {promises as fs} from 'fs';
+import { customAlphabet } from 'nanoid'; // genera ids como uuid4
+const nanoid = customAlphabet ('1234567890abcdef', 10);
 
 class ProductManager {
     constructor (){
@@ -6,21 +8,26 @@ class ProductManager {
     }
     //métodos 
 
-    readProducts = async ()=>{
+    readProducts = async ()=>{ //lee el products.json y lo convierte en object
         let readingProducts = await fs.readFile (this.path, "utf-8");
-        return JSON.parse (readingProducts);
+        let readingProductsParsed = await JSON.parse (readingProducts, null, 2);
+        return readingProductsParsed;
     }
 
-    writeProducts = async (product) =>{
+    writeProducts = async (product)=>{
+        await fs.writeFile (this.path, JSON.stringify(product))
+    }
+
+    addProducts = async (product) =>{//agrega al products.json
         let productsAccumulator = await this.readProducts();
+        product.id =nanoid(8);
         let totalProducts = [...productsAccumulator, product];
-        await fs.writeFile (this.path, JSON.stringify(totalProducts));
+        await this.writeProducts (totalProducts);
         return "Producto Agregado correctamente"
     }   
 
-    getProducts = async ()=>{
-        let readingProducts = await fs.readFile (this.path, "utf-8");
-        return JSON.parse (readingProducts);
+    getProducts = async ()=>{//devuelve los productos del products.json
+        return await this.readProducts();
     }
 
 } //cierra la class ProductManager

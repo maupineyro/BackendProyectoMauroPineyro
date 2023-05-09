@@ -17,7 +17,7 @@ app.use(express.urlencoded({extended:true}));
 //POST (en post method, desde Body, para "subir" un producto desde cliente)
 app.post ("/products", async (req,res) =>{
 let newProduct = req.body;
-res.send (await productManager.writeProducts(newProduct))
+res.send (await productManager.addProducts(newProduct))
 console.log (newProduct)
 })
 
