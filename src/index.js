@@ -39,7 +39,12 @@ app.delete ("/products/:id", async (req,res) =>{
     res.send (await productManager.deleteProducts(id))
 })
 
-//PUT
+//PUT (para modificar algun producto sin cambiar el id)
+app.put ("/products/:id", async (req,res) =>{
+    let id= req.params.id;
+    let updateProductPut = req.body;
+    res.send (await productManager.updateProducts(id, updateProductPut))
+})
 
 
 
