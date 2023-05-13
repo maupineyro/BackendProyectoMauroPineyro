@@ -7,16 +7,24 @@ class CartManager {
         this.path = "./src/saveData/carts.json"
     }
 
-    //métodos auxiliares para leer y escribir carritos
+    //métodos auxiliares para leer y escribir carritos. También el de encontrar ID
     readCarts = async() =>{
         let readingCarts = await fs.readFile (this.path, "utf-8");
         let readingCartsParsed = await JSON.parse (readingCarts, null, 2)
         return readingCartsParsed;
     }
+
     writeCarts = async (cart)=> {
         await fs.writeFile(this.path, JSON.stringify(cart));
-
     }
+
+    findCartById = async (cid) =>{
+        let readingCarts = await this.readCarts();
+        let cartById = await readingCarts.find (cart => cart.cid = cid);
+        return cartById;
+    }
+
+
 
     //métodos del carrito
     addCarts = async () =>{
@@ -25,11 +33,16 @@ class CartManager {
         let totalCarts = [{cid: id, products:[]}, ...cartsAccumulator];
         await this.writeCarts(totalCarts);
         return "Carrito agregado"
-
     }
 
     getCarts = async () =>{
         return await this.readCarts();
+    }
+
+    getCartById = async (cid) =>{
+        let CartById = await this.findCartById(cid);
+        if (!CartById) return "Carrito no encontrado"
+        return CartById
     }
 } // cierra la class CartManager
 
